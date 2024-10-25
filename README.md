@@ -1,24 +1,18 @@
-# gnuplot-cpp
+# gnuplot-hpp
 
 Заголовочный файл, реализующий интерфейс для изображения графиков с помощью `gnuplot` в консольном приложении `cpp`.
 
-This repository contains the file [gplot++.h](https://raw.githubusercontent.com/ziotom78/gplotpp/master/gplot%2B%2B.h), which provides a way for C++ programs to connect to a Gnuplot instance to produce plots. To use this library, you must first install [Gnuplot](http://www.gnuplot.info/) on your system!
-
 ## Установка
-
-Of course, before using `gplot++.h` you must have Gnuplot installed and available in the `PATH`! We provide here instructions about how to install Gnuplot under Windows, Mac OS X, and Linux. 
-
-**Windows users, beware that the standard installation won't work with `gplot++.h` because you need to activate a flag during the installation!**
 
 ### Windows
 
-Download the Gnuplot installer from the [SourceForge website](https://sourceforge.net/projects/gnuplot/files/gnuplot/). Be sure not to download the `.tar.gz` file; instead, you should download the file ending with `.exe`, e.g., [gp542-win64-mingw.exe](https://sourceforge.net/projects/gnuplot/files/gnuplot/5.4.2/gp542-win64-mingw.exe/download).
+Загрузите gnuplot по [ссылке](https://sourceforge.net/projects/gnuplot/files/gnuplot/). Нажмите на кнопку "Download Latest Version" и скачайте файл с расширением `.exe`.
 
-When you run the installer, pay attention to the option *Add application directory to your PATH environment variable* while installing Gnuplot, otherwise **`gplot++.h` will fail to generate the plots**! See [this video](https://vimeo.com/638098416) for help.
+Запустите установщик и в ходе конфигурации установки выберите флажок *Add application directory to your PATH environment variable* для автоматического добавления пути к gnuplot.exe в переменную среды PATH.
 
 ### Linux
 
-Linux users should use their package manager to install Gnuplot:
+Ввести в менеджере пакетов следующие команды для установки gnuplot:
 
     # Debian, Ubuntu, Linux Mint
     sudo apt-get install gnuplot
@@ -31,17 +25,15 @@ Linux users should use their package manager to install Gnuplot:
 
 ### Mac OS X
 
-The preferred way to install Gnuplot is using [Homebrew](https://formulae.brew.sh/formula/gnuplot) from the terminal:
+Предпочтительным способом установки gnuplot является использование [Homebrew](https://formulae.brew.sh/formula/gnuplot) из терминала:
 
     brew install gnuplot
 
-### Installing `gplot++.h`
+### Установка `gnuplot.hpp`
 
-Once you have Gnuplot installed, download the file [gplot++.h](https://raw.githubusercontent.com/ziotom78/gplotpp/master/gplot%2B%2B.h) and save it in the same folder as your program. That's all.
+Скачайте файл [gnuplot.hpp](https://github.com/LeoKhariton/gnuplot-hpp/blob/master/gnuplot.hpp) из этого репозитория и сохраните его в каталоге с проектом.
 
-[This video](https://vimeo.com/638098854) shows how to include [gplot++.h](https://raw.githubusercontent.com/ziotom78/gplotpp/master/gplot%2B%2B.h) in a C++ project created using Visual Studio 2019 (Windows).
-
-## Примеры использования
+## Примеры
 
 Here is the output of one of the examples:
 
