@@ -1,6 +1,6 @@
 #pragma once
 
-/* gplot++
+/* gnuplot
  *
  * A header-only C++ interface to Gnuplot.
  *
