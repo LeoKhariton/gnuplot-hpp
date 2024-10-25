@@ -1,64 +1,10 @@
-# gplot++
+# gnuplot-cpp
 
-[![](https://github.com/ziotom78/gplotpp/workflows/make-checks/badge.svg)](https://github.com/ziotom78/gplotpp/actions?query=workflow%3Amake-checks)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-A header-only C++ interface to Gnuplot. See [this video](https://vimeo.com/638098854) for a demo (running Visual Studio under Windows 10).
+Заголовочный файл, реализующий интерфейс для изображения графиков с помощью `gnuplot` в консольном приложении `cpp`.
 
 This repository contains the file [gplot++.h](https://raw.githubusercontent.com/ziotom78/gplotpp/master/gplot%2B%2B.h), which provides a way for C++ programs to connect to a Gnuplot instance to produce plots. To use this library, you must first install [Gnuplot](http://www.gnuplot.info/) on your system!
 
-A few features of this library are the following:
-
-- Header-only library: very easy to install
-- Plot `std::vector` variables
-- Multiple series in the same plot
-- Multiple plots (via `Gnuplot::multiplot`)
-- Logarithmic axes (via `Gnuplot::set_logscale`)
-- Histograms (via `Gnuplot::histogram`)
-- Custom ranges (via `Gnuplot::set_xrange` and `Gnuplot::set_yrange`)
-- Possibility to save the plots in PNG and PDF files
-- 3D plots (**new in 0.2.0**)
-
-
-# Table of Contents
-
-* [gplot++](#gplot)
-* [Table of Contents](#table-of-contents)
-   * [Installing Gnuplot and gplot++.h](#installing-gnuplot-and-gploth)
-      * [Windows](#windows)
-      * [Linux](#linux)
-      * [Mac OS X](#mac-os-x)
-      * [Installing gplot++.h](#installing-gploth)
-   * [Examples](#examples)
-   * [Documentation](#documentation)
-      * [Initializing a connection to Gnuplot](#initializing-a-connection-to-gnuplot)
-      * [Plot commands](#plot-commands)
-      * [Histograms](#histograms)
-      * [Line styles](#line-styles)
-      * [Styling the plot axes](#styling-the-plot-axes)
-      * [Logarithmic scale](#logarithmic-scale)
-      * [Multiple plots](#multiple-plots)
-      * [Error bars](#error-bars)
-      * [3D plots](#3d-plots)
-      * [Vector fields](#vector-fields)
-      * [Saving plots to a file](#saving-plots-to-a-file)
-      * [Low-level interface](#low-level-interface)
-   * [Similar libraries](#similar-libraries)
-   * [Changelog](#changelog)
-      * [HEAD](#head)
-      * [v0.5.1](#v051)
-      * [v0.5.0](#v050)
-      * [v0.4.0](#v040)
-      * [v0.3.1](#v031)
-      * [v0.3.0](#v030)
-      * [v0.2.1](#v021)
-      * [v0.2.0](#v020)
-      * [v0.1.0](#v010)
-
-Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
-
-
-## Installing Gnuplot and `gplot++.h`
+## Установка
 
 Of course, before using `gplot++.h` you must have Gnuplot installed and available in the `PATH`! We provide here instructions about how to install Gnuplot under Windows, Mac OS X, and Linux. 
 
@@ -95,7 +41,7 @@ Once you have Gnuplot installed, download the file [gplot++.h](https://raw.githu
 
 [This video](https://vimeo.com/638098854) shows how to include [gplot++.h](https://raw.githubusercontent.com/ziotom78/gplotpp/master/gplot%2B%2B.h) in a C++ project created using Visual Studio 2019 (Windows).
 
-## Examples
+## Примеры использования
 
 Here is the output of one of the examples:
 
@@ -492,56 +438,3 @@ Gnuplot plt{};
 plt.sendcommand("set xlabel 'X axis'");
 plt.sendcommand("plot sin(x)");
 ```
-
-## Similar libraries
-
-There are several other libraries like gplot++ around. These are the ones I referenced while developing my own's:
-
--   [gnuplot-iostream](https://github.com/dstahlke/gnuplot-iostream): it has much more features than gplot++, but it is slightly more difficult to install and use.
--   [gnuplot-cpp](https://github.com/martinruenz/gnuplot-cpp): another header-only library. It lacks support for high-level stuff like `std::vector` plotting.
-
-## Changelog
-
-### HEAD
-
-### v0.7.0
-
--   Add `Gnuplot::add_point`, `Gnuplot::get_num_of_points()`, `Gnuplot::get_points_x()`, and `Gnuplot::get_points_y()`, as well as a new overloaded method `Gnuplot::plot()` which does not require the vectors of `x` and `y`.
-
-### v0.5.1 (a.k.a. 0.6.0)
-
--   Add `Gnuplot::set_title`
-
-### v0.5.0
-
--   Add `redirect_to_dumb` and the `TerminalType` enum class to support the `dumb` terminal
-
--   Use a smarter algorithm to specify ranges in `Gnuplot.set_xrange` and `Gnuplot.set_yrange`: now specifying one of the two extrema as `NAN` does not override the specification of the other.
-
-### v0.4.0
-
--   `Gnuplot::redirect_to_svg` has been added
-
--   `Gnuplot::plot_vectors`, `Gnuplot::plot_vectors3d` have been added
-
-### v0.3.1
-
--   `Gnuplot::plot_xerr`, `Gnuplot::plot_yerr`, and `Gnuplot::plot_xyerr` have been added
-
-### v0.3.0
-
--   The library is now supported under Windows
-
-### v0.2.1
-
--   Ensure that commands sent to Gnuplot are executed immediately ([#1](https://github.com/ziotom78/gplotpp/pull/1))
-
-### v0.2.0
-
--   New constants `GNUPLOTPP_VERSION`, `GNUPLOTPP_MAJOR_VERSION`, `GNUPLOTPP_MINOR_VERSION`, and `GNUPLOTPP_PATCH_VERSION`
-
--   3D plots (after a suggestion by William Luciani)
-
-### v0.1.0
-
--   First release
