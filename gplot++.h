@@ -312,6 +312,17 @@ public:
     zrange = format_range(min, max);
   }
 
+  bool set_grid() {
+    std::stringstream os;
+    os << "set grid";
+    return sendcommand(os);
+  }
+  bool set_coi8r() {
+    std::stringstream os;
+    os << "set encoding koi8r" << '\n';
+    return sendcommand(os);
+  }
+
   bool set_logscale(AxisScale scale) {
     switch (scale) {
     case AxisScale::LOGX:
