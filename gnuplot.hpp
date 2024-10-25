@@ -179,7 +179,7 @@ public:
 
     // See
     // https://stackoverflow.com/questions/28152719/how-to-make-gnuplot-use-the-unicode-minus-sign-for-negative-numbers
-    sendcommand("set encoding utf8\n");
+    sendcommand("set encoding cp1251\n");
     sendcommand("set minussign");
   }
 
@@ -315,11 +315,6 @@ public:
   bool set_grid() {
     std::stringstream os;
     os << "set grid";
-    return sendcommand(os);
-  }
-  bool set_coi8r() {
-    std::stringstream os;
-    os << "set encoding koi8r" << '\n';
     return sendcommand(os);
   }
 
