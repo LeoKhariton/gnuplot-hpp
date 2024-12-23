@@ -35,27 +35,41 @@
 
 ## Примеры
 
+### Изображение графика функции в декартовых координатах
+
 ```cpp
 #include "gnuplot.hpp"
+#include <cmath>
+#include <vector>
 
-double f(double x) {
-	return 19 * x * x + 84 * sin(x) - 18;
+typedef std::vector<double> vector;
+
+double poly(const vector& coeffs, double x) {
+	double result = 0;
+	int n = coeffs.size();
+	for (int i = 0; i < n; i++)
+		result += coeffs[i] * pow(x, n - 1 - i);
+	return result;
 }
 
 int main() {
-
+	//Gnuplot plt{ };
 	Gnuplot plt{ R"("C:\Program Files\gnuplot\bin\gnuplot.exe")" };
 
-	const double a = -3, b = 1, step = 0.01;
+	vector x = { 0.75, 1.5, 2.25, 3, 3.75 };
+	vector y = { 2.5, 1.2, 3.1, 2.25, 4.48 };
 
-	std::vector<double> x, y;
+	vector coeffs = { 1.551, -13.99, 43.96, -55.4, 24.73 };
 
-	for (double i = a; i <= b; i += step) {
-		x.push_back(i);
-		y.push_back(f(i));
+	std::vector<double> xs, ys;
+
+	for (double i = x[0]; i <= x.back(); i += 0.01) {
+		xs.push_back(i);
+		ys.push_back(poly(coeffs, i));
 	}
 
-	plt.plot(x, y, "19 x^2 + 84 sin(x) - 18 = 0");
+	plt.plot(x, y, "Исходные данные", Gnuplot::LineStyle::POINTS);
+	plt.plot(xs, ys, "Полином Лагранжа");
 	plt.set_title("График функции");
 	plt.set_grid();
 	plt.set_xlabel("x");
