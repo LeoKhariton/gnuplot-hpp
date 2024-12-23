@@ -60,7 +60,6 @@ int main() {
 	plt.set_grid();
 	plt.set_xlabel("x");
 	plt.set_ylabel("y");
-	plt.show();
 
 	return 0;
 }

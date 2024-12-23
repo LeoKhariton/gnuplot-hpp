@@ -73,6 +73,8 @@ private:
 			assert(list_of_yerr.size() == list_of_y.size());
 	}
 
+	bool useAutoshow = true;
+
 public:
 	enum class LineStyle {
 		DOTS,
@@ -133,6 +135,8 @@ public:
 	}
 
 	~Gnuplot() {
+		if (useAutoshow) show();
+
 		if (connection) {
 			safe_pclose(connection);
 			connection = nullptr;
@@ -477,6 +481,7 @@ public:
 	// Force Gnuplot to draw all the series sent through any of the `plot`
 	// commands
 	bool show(bool call_reset = true) {
+		useAutoshow = false;
 		bool result = false;
 
 		std::stringstream os;
