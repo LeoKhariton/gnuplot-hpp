@@ -40,7 +40,7 @@ private:
 
 	static void safe_sleep(unsigned seconds) {
 #ifdef _WIN32
-		Sleep(seconds * 1000); //в миллисекундах
+		Sleep(seconds * 1000);
 #else
 		sleep(seconds);
 #endif
@@ -106,6 +106,7 @@ public:
 
 	Gnuplot(const char* executable_name = "gnuplot", bool persist = true)
 		: connection{}, series{}, files_to_delete{}, is_3dplot{ false } {
+		
 		std::stringstream os;
 		// The --persist flag lets Gnuplot keep running after the C++
 		// program has completed its execution
@@ -117,20 +118,19 @@ public:
 		set_xrange();
 		set_yrange();
 		set_zrange();
-		
+
 #ifdef _WIN32
-		sendcommand("set terminal windows font 'Trebuchet MS,12' linewidth 1.5");
-		sendcommand("set encoding cp1251\n");
+		sendcommand("\nset terminal windows font 'Trebuchet MS,12' linewidth 1.5\n");
+		sendcommand("\nset encoding cp1251\n");
 #else
-		sendcommand("set terminal windows linewidth 1.5");
-		sendcommand("set encoding koi-8r");
+		sendcommand("set terminal qt linewidth 1.5\n");
+		sendcommand("set encoding koi8r\n");
 #endif
 		sendcommand("set minussign\n");
 		sendcommand("set size ratio 0.8\n");
 		sendcommand("set autoscale noextend\n");
 		sendcommand("set decimalsign \",\"\n");
-		sendcommand("set colorsequence default");
-		//sendcommand("set palette gray");
+		sendcommand("set colorsequence classic");
 		//sendcommand("set format \" % '.2f\"\n");
 	}
 
@@ -167,9 +167,7 @@ public:
 	}
 
 	bool sendcommand(const std::string& str) { return sendcommand(str.c_str()); }
-	bool sendcommand(const std::stringstream& stream) {
-		return sendcommand(stream.str());
-	}
+	bool sendcommand(const std::stringstream& stream) { return sendcommand(stream.str()); }
 
 #pragma region SAVE AS METHODS
 
@@ -326,15 +324,15 @@ public:
 		_plot(label, LineStyle::VECTORS, false, x, y, vx, vy);
 	}
 
-	void plot3dfunc(const std::string& func, const std::string& label = "", bool use_color_gradient = false ) {
+	void plot3dfunc(const std::string& func, const std::string& label = "", bool use_color_gradient = false) {
 		is_3dplotfunc = true;
-		series3d.push_back(Gnuplot3dFunctionSeries{ func, use_color_gradient, label});
-	
+		series3d.push_back(Gnuplot3dFunctionSeries{ func, !use_color_gradient, label });
+
 	}
 
-	void plot_dot(const std::vector<double>& point){
+	void plot_dot(const std::vector<double>& point, const std::string& label = "") {
 		has_dot = true;
-		dots.push_back(GnuplotDots{ point });
+		dots.push_back(GnuplotDots{ point, label });
 	}
 
 	template <typename T, typename U>
@@ -484,9 +482,13 @@ public:
 		useAutoshow = false;
 		bool result = false;
 
+		/*if (series.empty())
+			return true;*/
+
 		std::stringstream os;
-		os << "set style fill solid 0.5\n";
-		
+		os << "set style fill transparent solid 0.5\n";
+		//os << "set pm3d noborder";
+
 
 		// Write the data in separate series
 		for (size_t i{}; i < series.size(); ++i) {
@@ -503,49 +505,59 @@ public:
 				<< "set zrange " << zrange << "\n";
 
 			sendcommand(fs3d);
-			
+
 			// isosample всегда задаются, если мы строим не плоскости, то добавляется "with pm3d", 
 			// тем самым график становится разноцветным. Если плоскость, то используются isosample
-			os3d << "set isosamples 100\nsplot ";
-			for (size_t i = 0; i < series3d.size(); ++i) {
+			
+			for (int i = 0; i < series3d.size(); i++) {
 				const Gnuplot3dFunctionSeries& s = series3d.at(i);
-				os3d << s.function_string << " title '" << s.title << "'";
+				os3d << "\nf" << i + 1 << "(x,y)=" << s.function_string;
+			}
+			
+			os3d << "\nset samples 100";
+			os3d << "\nset isosamples 301";
+			os3d << "\nset hidden3d";
+			os3d << "\nset parametric";
+			os3d << "\nset urange " << xrange;
+			os3d << "\nset vrange " << yrange;
+			
+			os3d << "\nsplot ";
+
+			for (size_t i = 0; i < series3d.size(); ++i) {
+
+				const Gnuplot3dFunctionSeries& s = series3d.at(i);
+
+				os3d << "u, v, f" << i + 1 << "(u,v)" << " title '" << s.title << "'";
+
 
 				if (!s.is_plane) {
 					os3d << " with pm3d";
 				}
 
-				if (i + 1 < series3d.size() || has_dot) {
-					os3d << ", ";
+				if (i + 1 < series3d.size()/* || has_dot*/) {
+					os3d << ", \\\n";
 				}
 			}
+
 			// если еще передали точки, то добавляем их на график в ручном режиме
 			if (has_dot) {
-				os3d << "'-' with points pt 7 lc rgb 'red' notitle";
-				sendcommand(os3d.str());
-
 				for (const auto& point : dots) {
-					std::stringstream point_command;
-					point_command << point.coordinates[0] << " " << point.coordinates[1] << " " << point.coordinates[2] << "\n";
-					sendcommand(point_command.str());
+					os3d << ", '-'  with points pt 7 lc rgb 'red' title '" << point.title << "'\n" << point.coordinates[0] << " " << point.coordinates[1] << " " << point.coordinates[2];
 				}
-
-				// Завершение ввода точек
-				sendcommand("e\n");
-			} else {
-				sendcommand(os3d.str());
+				os3d << "\ne";
 			}
-		}
-		else {	// else отрабатывает, если мы строим функцию по координатам
-			if (is_3dplot){
+			sendcommand(os3d.str());
+
+		} else { // else отрабатывает, если мы строим функцию по координатам
+
+			if (is_3dplot) {
 				os << "set hidden3d\n";
 				os << "set dgrid3d 40,40\nset pm3d \n";
 				os << "splot " << xrange << " " << yrange << " " << zrange << " ";
-			} else
-			{
-				os << "plot " << xrange << " " << yrange << " ";	
+			} else {
+				os << "plot " << xrange << " " << yrange << " ";
 			}
-			
+
 			// Plot the series we have just defined
 			for (size_t i{}; i < series.size(); ++i) {
 				const GnuplotSeries& s = series.at(i);
@@ -554,9 +566,9 @@ public:
 					<< "'";
 
 				if (i + 1 < series.size())
-				os << ", ";
+					os << ", ";
 			}
-			
+
 			result = sendcommand(os);
 		}
 
@@ -622,12 +634,13 @@ private:
 
 	struct Gnuplot3dFunctionSeries {
 		std::string function_string;
-		bool is_plane; 
+		bool is_plane;
 		std::string title;
 	};
-	
+
 	struct GnuplotDots {
 		std::vector<double> coordinates;
+		std::string title;
 	};
 
 
@@ -673,7 +686,7 @@ private:
 
 		return os.str();
 	}
-     
+
 	FILE* connection;
 	std::vector<GnuplotSeries> series;
 	std::vector<Gnuplot3dFunctionSeries> series3d;
