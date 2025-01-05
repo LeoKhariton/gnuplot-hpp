@@ -324,10 +324,9 @@ public:
 		_plot(label, LineStyle::VECTORS, false, x, y, vx, vy);
 	}
 
-	void plot3dfunc(const std::string& func, const std::string& label = "", bool use_color_gradient = false) {
+	void plot3d(const std::string& func, const std::string& label = "", bool use_color_gradient = false) {
 		is_3dplotfunc = true;
 		series3d.push_back(Gnuplot3dFunctionSeries{ func, !use_color_gradient, label });
-
 	}
 
 	void plot_dot(const std::vector<double>& point, const std::string& label = "") {
