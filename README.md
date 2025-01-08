@@ -47,13 +47,13 @@
 | 8 | `void plot_vectors(const std::vector<T>& x, const std::vector<U>& y, const std::vector<V>& vx, const std::vector<W>& vy, const std::string& label = "")` | Строит векторное поле в двумерном пространстве | Принимает векторы координат `x` и `y`, векторы компонент векторов `vx` и `vy` и необязательный заголовок для графика | – |
 | 9 | `void histogram(const std::vector<T>& values, size_t nbins, const std::string& label = "", LineStyle style = LineStyle::BOXES)` | Строит гистограмму | Принимает вектор значений, количество интервалов для гистограммы, необязательный заголовок для графика и стиль линии | – |
 | 10 | `bool multiplot(int nrows, int ncols, const std::string& title = "")` | Устанавливает режим для отображения нескольких графиков на одном рисунке (окне) в виде сетки | `nrows` – количество строк,<br>`ncols` – количество столбцов,<br>`title` – название графика | `true`, если команда успешно отправлена в Gnuplot, `false` в противном случае |
-| 11 | `bool show(bool call_reset = true)` | Отображает все добавленные графики, отправляет команды в Gnuplot | `call_reset` – нужно ли сбросить данные после отображения  | – |
-| 12 | `bool save_as_png(const std::string& filename, const std::string& size = "800, 600")` | Сохраняет график в файл формата PNG | `filename` – имя файла,<br>`size` – размер изображения в пикселях | – |
-| 13 | `bool save_as_svg(const std::string& filename, const std::string& size = "800, 600")` | Сохраняет график в файл формата SVG | `filename` – имя файла,<br>`size` – размер изображения в пикселях | –          |
-| 14 | `bool set_title(const std::string& title)` | Устанавливает заголовок графика | `title` – заголовок графика | – |
-| 15 | `bool set_xlabel(const std::string& label)` | Устанавливает заголовок оси X | `label` – заголовок оси X | – |
-| 16 | `bool set_ylabel(const std::string& label)` | Устанавливает заголовок оси Y | `label` – заголовок оси Y | – |
-| 17 | `bool set_zlabel(const std::string& label)` | Устанавливает заголовок оси Z | `label` – заголовок оси Z | – |
+| 11 | `bool show(bool call_reset = true)` | Отображает все добавленные графики, отправляет команды в Gnuplot | `call_reset` – нужно ли сбросить данные после отображения  | `true`, если команда успешно отправлена в Gnuplot, `false` в противном случае |
+| 12 | `bool save_as_png(const std::string& filename, const std::string& size = "800, 600")` | Сохраняет график в файл формата PNG | `filename` – имя файла,<br>`size` – размер изображения в пикселях | `true`, если команда успешно отправлена в Gnuplot, `false` в противном случае |
+| 13 | `bool save_as_svg(const std::string& filename, const std::string& size = "800, 600")` | Сохраняет график в файл формата SVG | `filename` – имя файла,<br>`size` – размер изображения в пикселях | `true`, если команда успешно отправлена в Gnuplot, `false` в противном случае |
+| 14 | `bool set_title(const std::string& title)` | Устанавливает заголовок графика | `title` – заголовок графика | `true`, если команда успешно отправлена в Gnuplot, `false` в противном случае |
+| 15 | `bool set_xlabel(const std::string& label)` | Устанавливает заголовок оси X | `label` – заголовок оси X | `true`, если команда успешно отправлена в Gnuplot, `false` в противном случае |
+| 16 | `bool set_ylabel(const std::string& label)` | Устанавливает заголовок оси Y | `label` – заголовок оси Y | `true`, если команда успешно отправлена в Gnuplot, `false` в противном случае |
+| 17 | `bool set_zlabel(const std::string& label)` | Устанавливает заголовок оси Z | `label` – заголовок оси Z | `true`, если команда успешно отправлена в Gnuplot, `false` в противном случае |
 | 18 | `void set_xrange(double min = NAN, double max = NAN)` | Устанавливает диапазон значений для оси X | `min, max` – минимальное и максимальное значения для оси X | – |
 | 19 | `void set_yrange(double min = NAN, double max = NAN)` | Устанавливает диапазон значений для оси Y | `min, max` – минимальное и максимальное значения для оси Y | – |
 | 20 | `void set_zrange(double min = NAN, double max = NAN)` | Устанавливает диапазон значений для оси Z | `min, max` – минимальное и максимальное значения для оси Z | – |
