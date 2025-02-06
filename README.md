@@ -80,13 +80,13 @@ double poly(const vector& coeffs, double x) {
 }
 
 int main() {
-	//Gnuplot plt{ };
+
 	Gnuplot plt{ R"("C:\Program Files\gnuplot\bin\gnuplot.exe")" };
 
 	vector x = { 0.75, 1.5, 2.25, 3, 3.75 };
 	vector y = { 2.5, 1.2, 3.1, 2.25, 4.48 };
 
-	vector coeffs = { 1.551, -13.99, 43.96, -55.4, 24.73 };
+	vector coeffs = { 1.55127572, -13.98518519, 43.96296296, -55.4, 24.73 };
 
 	std::vector<double> xs, ys;
 
@@ -105,5 +105,36 @@ int main() {
 	return 0;
 }
 ```
+![](Examples/interp.png)
 
-![](https://github.com/user-attachments/assets/672e560a-7b00-47e5-862a-876d1d205d5f)
+### Визуализация решения линейной системы
+
+```cpp
+#include "gnuplot.hpp"
+
+int main() {
+
+	Gnuplot plt { R"("C:\Program Files\gnuplot\bin\gnuplot.exe")" };
+
+	plt.set_title("Система линейных уравнений");
+
+	plt.set_xlabel("x");
+	plt.set_ylabel("y");
+	plt.set_zlabel("z");
+
+	plt.set_xrange(-3, 1);
+	plt.set_yrange(0.5, 1.5);
+	plt.set_zrange(1.5, 2.5);
+
+	plt.plot3d("(-0.7-2*x-0.3*y)/0.5", "2x + 0,3y + 0,5z = -0,7");
+	plt.plot3d("(3.7-0.1*x-3*y)/0.4", "0,1x + 3y + 0,4z = 3,7");
+	plt.plot3d("(8-0.1*x-0.1*y)/4", "0,1x + 0,1y + 4z = 8");
+
+	plt.plot_dot({ -1, 1, 2 }, "Решение (-1, 1, 2)");
+
+	plt.set_grid();
+
+	return 0;
+}
+```
+![](Examples/linear_system.png)
