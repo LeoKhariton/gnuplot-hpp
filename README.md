@@ -109,7 +109,7 @@ int main() {
 	return 0;
 }
 ```
-![](Examples/interp.png)
+<img width="509" height="477" alt="image" src="https://github.com/user-attachments/assets/a363d41e-279f-4fab-8563-7235d9d462a4" />
 
 ### Визуализация решения линейной системы
 
@@ -141,4 +141,4 @@ int main() {
 	return 0;
 }
 ```
-![](Examples/linear_system.png)
+<img width="648" height="712" alt="image" src="https://github.com/user-attachments/assets/2bd81861-64b0-4ac8-8154-45e79710fed7" />
